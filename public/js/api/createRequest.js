@@ -9,6 +9,7 @@ const createRequest = (options = {}) => {
         try {
             xhr.onload = function() {
                 callback(null, xhr.response);
+                console.log(xhr);
             };
         } catch (err) {
             console.log(err);
