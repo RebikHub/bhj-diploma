@@ -14,7 +14,7 @@ class AsyncForm {
      * */
     constructor(element) {
         this.element = element;
-        this.registerEvents()
+        this.registerEvents();
     }
 
     /**
@@ -24,7 +24,7 @@ class AsyncForm {
     registerEvents() {
         this.element.addEventListener('submit', (e) => {
             e.preventDefault();
-            this.submit()
+            this.submit();
         })
     }
 
