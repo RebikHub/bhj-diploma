@@ -13,7 +13,13 @@ class AsyncForm {
      * через registerEvents()
      * */
     constructor(element) {
-        this.element = element;
+        try {
+            if (element) {
+                this.element = element;
+            }
+        } catch (e) {
+            console.log(e);
+        }
         this.registerEvents();
     }
 
@@ -36,7 +42,12 @@ class AsyncForm {
      * }
      * */
     getData() {
-        return new FormData(this.element);
+        const formData = new FormData(this.element);
+        let data = {};
+        for (let [name, value] of formData) {
+            data[name] = value;
+        }
+        return data;
     }
 
     onSubmit(options) {

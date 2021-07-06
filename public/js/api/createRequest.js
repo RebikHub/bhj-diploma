@@ -5,26 +5,30 @@
 
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
-    console.log(options.method === 'GET');
+
     try {
         if (options.method === 'GET') {
-            xhr.open(`${options.method}`, `${options.url}?mail=${options.mail}&password=${options.password}`);
+            xhr.open(`${options.method}`, `${options.url}?mail=${options.email}&password=${options.password}`);
+            console.log(options);
             xhr.send();
         } else {
-            let formData = new FormData;
-            formData.append('mail', optins.data.mail);
+            let formData = new FormData();
+            formData.append('email', options.data.email);
             formData.append('password', options.data.password);
-            console.log(formData);
-            xhr.open(`${optins.method}`, `${options.url}`);
+            console.log(options);
+            xhr.open(`${options.method}`, `${options.url}`);
             xhr.send(formData);
         };
     } catch (e) {
-        // console.log(e);
+        console.log(e);
     }
     xhr.responseType = 'json';
-    xhr.addEventListener('load', (err, response) => {
-        console.log('Ошибка, если есть', err);
-        console.log('Данные, если нет ошибки', response);
-        console.log(xhr.response);
-    });
+    options.callback = (response) => {
+        if (xhr.response.success) {
+            console.log('Данные, если нет ошибки', xhr.response.user);
+        } else {
+            console.log('Ошибка, если есть', xhr.response.error);
+        }
+    };
+    xhr.addEventListener('load', options.callback);
 };

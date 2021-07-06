@@ -24,6 +24,7 @@ class Modal {
      * */
     registerEvents() {
         const modal = document.querySelectorAll('[data-dismiss="modal"]');
+
         for (let i of modal) {
             i.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -53,6 +54,3 @@ class Modal {
         this.element.style = 'display: none';
     }
 }
-
-new Modal(document.querySelector('#modal-new-account'));
-// new Modal(document.querySelector('#modal-new-income'));

@@ -10,6 +10,7 @@ class User {
      * локальном хранилище.
      * */
     static setCurrent(user) {
+        console.log(user);
         localStorage.setItem('user', user);
     }
 
@@ -26,9 +27,9 @@ class User {
      * из локального хранилища
      * */
     static current() {
-        User.setCurrent(user);
-        const current = User.current();
-        return current;
+        console.log(this.setCurrent(user));
+        // const current = this.current();
+        // return current;
     }
 
     /**
@@ -49,17 +50,11 @@ class User {
      * User.setCurrent.
      * */
     static login(data, callback) {
-        createRequest({
-            url: this.URL + '/login',
-            method: 'POST',
-            responseType: 'json',
-            data,
-            callback: (err, response) => {
-                if (response && response.user) {
-                    this.setCurrent(response.user);
-                }
-                callback(err, response);
-            }
+        createRequest({ method: 'POST', url: this.URL + '/login', data }, (err, response) => {
+            // if (response && response.user) {
+            console.log(response);
+            this.setCurrent(response.user);
+            // }
         });
     }
 
@@ -70,8 +65,14 @@ class User {
      * User.setCurrent.
      * */
     static register(data, callback) {
+        console.log(data);
         createRequest({ method: 'POST', url: this.URL + '/register', data }, (err, response) => {
-            this.setCurrent(response.user);
+            if (response.success) {
+                this.setCurrent(response.user);
+            } else {
+                console.log(err);
+                console.log(response.error);
+            }
         })
     }
 
@@ -80,7 +81,7 @@ class User {
      * выхода необходимо вызвать метод User.unsetCurrent
      * */
     static logout(callback) {
-        createRequest({ method: 'POST', url: this.URL + '/logout' }, (err, response) => {
+        createRequest({ method: 'POST', url: this.URL + '/logout' }, () => {
             this.unsetCurrent();
         })
     }

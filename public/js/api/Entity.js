@@ -10,11 +10,7 @@ class Entity {
      * (в зависимости от того, что наследуется от Entity)
      * */
     static list(data, callback) {
-        // const data = {
-        //     mail: '',
-        //     password: ''
-        // };
-        return createRequest({ method: 'GET', url: this.URL, data });
+        createRequest({ method: 'GET', url: this.URL, data }, callback);
     }
 
     /**
@@ -23,10 +19,7 @@ class Entity {
      * что наследуется от Entity)
      * */
     static create(data, callback) {
-        // const data = {
-        //     mail: ''
-        // };
-        return createRequest({ method: 'PUT', url: this.URL, data });
+        createRequest({ method: 'PUT', url: this.URL, data }, callback);
     }
 
     /**
@@ -34,9 +27,6 @@ class Entity {
      * (в зависимости от того, что наследуется от Entity)
      * */
     static remove(data, callback) {
-        // const data = {
-        //     mail: ''
-        // };
-        return createRequest({ method: 'DELETE', url: this.URL, data });
+        createRequest({ method: 'DELETE', url: this.URL, data }, callback);
     }
 }
