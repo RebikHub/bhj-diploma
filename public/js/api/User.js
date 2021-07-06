@@ -11,7 +11,8 @@ class User {
      * */
     static setCurrent(user) {
         console.log(user);
-        localStorage.setItem('user', user);
+        let data = JSON.stringify(user);
+        localStorage.setItem('user', data);
     }
 
     /**
@@ -27,9 +28,11 @@ class User {
      * из локального хранилища
      * */
     static current() {
-        console.log(this.setCurrent(user));
-        // const current = this.current();
-        // return current;
+        if (localStorage.user) {
+            const current = localStorage.user;
+        }
+        // console.log(this.setCurrent(user));
+        return JSON.parse(current);
     }
 
     /**
@@ -37,9 +40,13 @@ class User {
      * авторизованном пользователе.
      * */
     static fetch(callback) {
-        createRequest({ method: 'GET', url: this.URL + '/current' }, response => {
-            this.setCurrent(response.user);
-            callback();
+        createRequest({
+            method: 'GET',
+            url: this.URL + '/current',
+            callback: (err, response) => {
+                this.setCurrent(response.user);
+                // callback();
+            }
         });
     }
 
@@ -50,12 +57,10 @@ class User {
      * User.setCurrent.
      * */
     static login(data, callback) {
-        createRequest({ method: 'POST', url: this.URL + '/login', data }, (err, response) => {
-            // if (response && response.user) {
-            console.log(response);
-            this.setCurrent(response.user);
-            // }
-        });
+        createRequest({ method: 'POST', url: this.URL + '/login', data });
+        console.log(data);
+        this.setCurrent(data);
+        callback();
     }
 
     /**
@@ -66,12 +71,17 @@ class User {
      * */
     static register(data, callback) {
         console.log(data);
-        createRequest({ method: 'POST', url: this.URL + '/register', data }, (err, response) => {
-            if (response.success) {
-                this.setCurrent(response.user);
-            } else {
-                console.log(err);
-                console.log(response.error);
+        createRequest({
+            method: 'POST',
+            url: this.URL + '/register',
+            data,
+            callback: (err, response) => {
+                if (response.success) {
+                    this.setCurrent(response.user);
+                } else {
+                    console.log(err);
+                    console.log(response.error);
+                }
             }
         })
     }
@@ -81,8 +91,12 @@ class User {
      * выхода необходимо вызвать метод User.unsetCurrent
      * */
     static logout(callback) {
-        createRequest({ method: 'POST', url: this.URL + '/logout' }, () => {
-            this.unsetCurrent();
+        createRequest({
+            method: 'POST',
+            url: this.URL + '/logout',
+            callback: (err, response) => {
+                this.unsetCurrent();
+            }
         })
     }
 }
