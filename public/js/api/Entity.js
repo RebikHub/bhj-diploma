@@ -15,8 +15,9 @@ class Entity {
             url: this.URL,
             data,
             callback: (err, response) => {
+                console.log(response);
                 if (err === null) {
-                    callback(err, response)
+                    callback(err, response.data);
                 } else {
                     console.log(err);
                 }
@@ -36,7 +37,7 @@ class Entity {
             data,
             callback: (err, response) => {
                 if (err === null) {
-                    callback(err, response)
+                    callback(err, response.data);
                 } else {
                     console.log(err);
                 }
@@ -55,7 +56,7 @@ class Entity {
             data,
             callback: (err, response) => {
                 if (err === null) {
-                    callback(err, response)
+                    callback(err, response.data);
                 } else {
                     console.log(err);
                 }

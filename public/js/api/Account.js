@@ -13,8 +13,9 @@ class Account extends Entity {
             method: 'GET',
             url: '/account',
             callback: (err, response) => {
+                console.log(response);
                 if (err === null) {
-                    callback();
+                    callback(err, response);
                 }
             }
         });

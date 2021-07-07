@@ -49,7 +49,6 @@ class User {
             method: 'GET',
             url: this.URL + '/current',
             callback: (err, response) => {
-                console.log(response);
                 if (err === null) {
                     callback(err, response);
                     if (response.success) {
