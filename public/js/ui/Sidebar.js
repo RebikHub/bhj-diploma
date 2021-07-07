@@ -55,8 +55,8 @@ class Sidebar {
         })
         itemLogout.addEventListener('click', (e) => {
             e.preventDefault();
-            App.setState('init');
             User.logout(() => {
+                App.setState('init');
                 User.unsetCurrent();
             });
         })
