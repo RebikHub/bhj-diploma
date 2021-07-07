@@ -10,8 +10,12 @@ class User {
      * локальном хранилище.
      * */
     static setCurrent(user) {
-        console.log(user);
-        let data = JSON.stringify(user);
+        let userId = {
+            id: user.id,
+            name: user.name
+        }
+        console.log(userId);
+        let data = JSON.stringify(userId);
         localStorage.setItem('user', data);
     }
 
@@ -30,9 +34,10 @@ class User {
     static current() {
         if (localStorage.user) {
             const current = localStorage.user;
+            return JSON.parse(current);
+        } else {
+            return null;
         }
-        // console.log(this.setCurrent(user));
-        return JSON.parse(current);
     }
 
     /**
@@ -44,8 +49,17 @@ class User {
             method: 'GET',
             url: this.URL + '/current',
             callback: (err, response) => {
-                this.setCurrent(response.user);
-                // callback();
+                console.log(response);
+                if (err === null) {
+                    callback(err, response);
+                    if (response.success) {
+                        this.current();
+                    } else {
+                        this.unsetCurrent();
+                        console.log(response.error);
+                    }
+                }
+
             }
         });
     }
@@ -57,10 +71,21 @@ class User {
      * User.setCurrent.
      * */
     static login(data, callback) {
-        createRequest({ method: 'POST', url: this.URL + '/login', data });
-        console.log(data);
-        this.setCurrent(data);
-        callback();
+        createRequest({
+            method: 'POST',
+            url: this.URL + '/login',
+            data,
+            callback: (err, response) => {
+                if (err === null) {
+                    if (response.success) {
+                        this.setCurrent(response.user);
+                    } else {
+                        console.log(response.error);
+                    }
+                    callback(err, response);
+                }
+            }
+        });
     }
 
     /**
@@ -76,11 +101,13 @@ class User {
             url: this.URL + '/register',
             data,
             callback: (err, response) => {
-                if (response.success) {
-                    this.setCurrent(response.user);
-                } else {
-                    console.log(err);
-                    console.log(response.error);
+                if (err === null) {
+                    if (response.success) {
+                        this.setCurrent(response.user);
+                    } else {
+                        console.log(response.error);
+                    }
+                    callback(err, response);
                 }
             }
         })
@@ -95,7 +122,9 @@ class User {
             method: 'POST',
             url: this.URL + '/logout',
             callback: (err, response) => {
-                this.unsetCurrent();
+                if (response.success) {
+                    this.unsetCurrent();
+                }
             }
         })
     }
