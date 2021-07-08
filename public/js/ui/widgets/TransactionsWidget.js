@@ -19,6 +19,7 @@ class TransactionsWidget {
             } catch (e) {
                 console.log(e);
             }
+            this.registerEvents();
         }
         /**
          * Регистрирует обработчики нажатия на
@@ -31,12 +32,10 @@ class TransactionsWidget {
         const createExpense = document.querySelector('.create-expense-button');
         createIncome.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(e.target);
             (App.getModal('newIncome')).open();
         })
         createExpense.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(e.target);
             (App.getModal('newExpense')).open();
         })
     }

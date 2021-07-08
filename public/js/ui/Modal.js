@@ -51,7 +51,6 @@ class Modal {
          * со значением «block»
          * */
     open() {
-            console.log(this.element.style);
             this.element.style = 'display: block';
         }
         /**
