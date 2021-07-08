@@ -60,7 +60,7 @@ class AccountsWidget {
         if (user) {
             Account.list(user, (err, response) => {
                 this.clear();
-                this.renderItem(response.data);
+                this.renderItem(response);
             });
         }
     }

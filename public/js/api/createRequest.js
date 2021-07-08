@@ -11,7 +11,14 @@ const createRequest = (options = {}) => {
     }
     try {
         if (options.method === 'GET') {
-            xhr.open(`${options.method}`, `${options.url}?mail=${options.email}&password=${options.password}`);
+            // console.log(options.data);
+            if (options.data) {
+                for (const [key, value] of Object.entries(options.data)) {
+                    xhr.open(`${options.method}`, `${options.url}?${key}=${value}`);
+                }
+            } else {
+                xhr.open(`${options.method}`, `${options.url}?mail=${options.email}&password=${options.password}`);
+            }
             xhr.send();
         } else {
             let formData = new FormData();

@@ -16,7 +16,7 @@ class Account extends Entity {
                 console.log(response);
                 if (err === null) {
                     if (response.success) {
-                        callback(err, response.data);
+                        callback(err, response);
                     }
                 }
             }

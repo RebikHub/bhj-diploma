@@ -23,21 +23,21 @@ class CreateTransactionForm extends AsyncForm {
         const incomeAccount = document.querySelector('#income-accounts-list');
         const expenseAccount = document.querySelector('#expense-accounts-list');
         if (this.element === newIncome) {
-            Account.list(newIncome, (err, response) => {
+            Account.list(User.current(), (err, response) => {
                 incomeAccount.innerHTML = '';
                 let html = [];
-                for (let i = 0; i < response.data.length; i++) {
-                    html.push(`<option value="${response.data[i].id}">${response.data[i].name}</option>`);
+                for (let i = 0; i < response.length; i++) {
+                    html.push(`<option value="${response[i].id}">${response[i].name}</option>`);
                 }
                 incomeAccount.insertAdjacentHTML('beforeend', html.join(''));
             })
         }
         if (this.element === newExpense) {
-            Account.list(newExpense, (err, response) => {
+            Account.list(User.current(), (err, response) => {
                 expenseAccount.innerHTML = '';
                 let html = [];
-                for (let i = 0; i < response.data.length; i++) {
-                    html.push(`<option value="${response.data[i].id}">${response.data[i].name}</option>`);
+                for (let i = 0; i < response.length; i++) {
+                    html.push(`<option value="${response[i].id}">${response[i].name}</option>`);
                 }
                 expenseAccount.insertAdjacentHTML('beforeend', html.join(''));
             })

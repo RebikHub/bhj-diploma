@@ -98,17 +98,16 @@ class TransactionsPage {
             return;
         } else {
             this.lastOptions = options;
-            // console.log(options);
             Account.get(options.account_id, (err, response) => {
                 let trans;
-                for (const i of response) {
+                for (const i of response.data) {
                     if (i.id === options.account_id) {
                         trans = i;
                     }
                 }
                 this.renderTitle(trans.name);
                 Transaction.list(options, (err, response) => {
-                    // console.log(response);
+                    console.log(response);
                     this.renderTransactions(response);
                 })
             })
@@ -189,7 +188,7 @@ class TransactionsPage {
         const content = this.element.querySelector('.content');
 
         for (let i = 0; i < data.length; i++) {
-            content.insertAdjacentElement('beforeend', getTransactionHTML(item[i]));
+            content.insertAdjacentElement('beforeend', getTransactionHTML(data[i]));
         }
     }
 }
