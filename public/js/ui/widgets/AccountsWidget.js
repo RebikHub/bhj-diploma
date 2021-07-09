@@ -14,13 +14,12 @@ class AccountsWidget {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
-        try {
-            if (element) {
-                this.element = element;
-            }
-        } catch (e) {
-            console.log(e);
-        }
+        if (element !== null) {
+            this.element = element;
+        } else {
+            throw new Error('element = null');
+        };
+
         this.registerEvents();
         this.update();
     }
@@ -37,12 +36,12 @@ class AccountsWidget {
 
         createAccount.addEventListener('click', () => {
             (App.getModal('createAccount')).open();
-        })
+        });
 
         this.element.addEventListener('click', (e) => {
             e.preventDefault();
             this.onSelectAccount(e.target.closest('.account'))
-        })
+        });
     }
 
     /**
@@ -62,7 +61,7 @@ class AccountsWidget {
                 this.clear();
                 this.renderItem(response);
             });
-        }
+        };
     }
 
     /**
@@ -117,6 +116,6 @@ class AccountsWidget {
     renderItem(data) {
         for (let i = 0; i < data.length; i++) {
             this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(data[i]));
-        }
+        };
     }
 }

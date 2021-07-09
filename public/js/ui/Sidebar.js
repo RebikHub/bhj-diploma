@@ -27,8 +27,8 @@ class Sidebar {
             } else {
                 bodyApp.classList.add('sidebar-open');
                 bodyApp.classList.add('sidebar-collapse');
-            }
-        })
+            };
+        });
     }
 
     /**
@@ -47,19 +47,18 @@ class Sidebar {
             e.preventDefault();
             let modal = App.getModal('register');
             modal.open();
-        })
+        });
         itemLogin.addEventListener('click', (e) => {
             e.preventDefault();
             let modal = App.getModal('login');
             modal.open();
-        })
+        });
         itemLogout.addEventListener('click', (e) => {
             e.preventDefault();
             User.logout(() => {
                 App.setState('init');
                 User.unsetCurrent();
             });
-        })
-
+        });
     }
 }

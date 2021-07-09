@@ -35,7 +35,6 @@ class Entity {
             url: this.URL,
             data,
             callback: (err, response) => {
-                console.log(data);
                 if (err === null) {
                     callback(err, response.data);
                 } else {

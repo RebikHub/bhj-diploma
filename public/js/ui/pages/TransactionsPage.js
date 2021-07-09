@@ -11,13 +11,13 @@ class TransactionsPage {
      * через registerEvents()
      * */
     constructor(element) {
-        try {
-            if (element) {
-                this.element = element;
-            }
-        } catch (e) {
-            console.log(e);
-        }
+
+        if (element !== null) {
+            this.element = element;
+        } else {
+            throw new Error('element = null');
+        };
+
         this.registerEvents();
     }
 
@@ -42,15 +42,15 @@ class TransactionsPage {
         const btnRemoveAccount = document.querySelector('.remove-account');
         btnRemoveAccount.addEventListener('click', () => {
             this.removeAccount();
-        })
+        });
 
         if (document.querySelector('.transaction') !== null) {
             for (const i of document.querySelectorAll('.transaction__remove')) {
                 i.addEventListener('click', (e) => {
                     this.removeTransaction({ id: e.target.closest('.transaction__remove').dataset.id });
-                })
-            }
-        }
+                });
+            };
+        };
     }
 
     /**
@@ -67,13 +67,12 @@ class TransactionsPage {
             if (confirm("Вы действительно хотите удалить счет?")) {
                 Account.remove({ id: this.lastOptions.account_id }, () => {
                     App.updateWidgets();
-                    // this.update();
                 });
                 this.clear();
             }
         } else {
             return;
-        }
+        };
     }
 
     /**
@@ -83,15 +82,13 @@ class TransactionsPage {
      * либо обновляйте текущую страницу (метод update) и виджет со счетами
      * */
     removeTransaction(id) {
-        console.log(this.lastOptions);
         if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
             Transaction.remove(id, () => {
                 App.update();
-                // this.update();
-            })
+            });
         } else {
             return;
-        }
+        };
     }
 
     /**
@@ -109,13 +106,13 @@ class TransactionsPage {
                 for (const i of response.data) {
                     if (i.id === options.account_id) {
                         this.renderTitle(i.name);
-                    }
-                }
-            })
+                    };
+                };
+            });
             Transaction.list(options, (err, response) => {
                 this.renderTransactions(response);
-            })
-        }
+            });
+        };
     }
 
     /**

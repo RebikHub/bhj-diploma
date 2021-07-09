@@ -34,5 +34,5 @@ const createRequest = (options = {}) => {
     } catch (e) {
         console.log(e);
         options.callback(e, xhr.response);
-    }
+    };
 };

@@ -40,7 +40,7 @@ class CreateTransactionForm extends AsyncForm {
                     html.push(`<option value="${response[i].id}">${response[i].name}</option>`);
                 }
                 expenseAccount.insertAdjacentHTML('beforeend', html.join(''));
-            })
+            });
         }
     }
 
@@ -56,6 +56,6 @@ class CreateTransactionForm extends AsyncForm {
             this.element.reset();
             (App.getModal('newIncome')).close();
             (App.getModal('newExpense')).close();
-        })
+        });
     }
 }

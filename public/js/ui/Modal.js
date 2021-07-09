@@ -12,13 +12,11 @@ class Modal {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
-        try {
-            if (element) {
-                this.element = element;
-            }
-        } catch (e) {
-            console.log(e);
-        }
+        if (element !== null) {
+            this.element = element;
+        } else {
+            throw new Error('element = null');
+        };
 
         this.registerEvents();
     }
@@ -36,7 +34,7 @@ class Modal {
                 e.preventDefault();
                 this.onClose();
             });
-        }
+        };
     }
 
     /**
@@ -44,7 +42,7 @@ class Modal {
      * Закрывает текущее окно (Modal.close())
      * */
     onClose(e) {
-            this.close()
+            this.close();
         }
         /**
          * Открывает окно: устанавливает CSS-свойство display

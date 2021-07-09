@@ -13,8 +13,7 @@ class User {
         let userId = {
             id: user.id,
             name: user.name
-        }
-        console.log(userId);
+        };
         let data = JSON.stringify(userId);
         localStorage.setItem('user', data);
     }
