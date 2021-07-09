@@ -21,7 +21,6 @@ const createRequest = (options = {}) => {
             xhr.send();
         } else {
             let formData = new FormData();
-            console.log(options.data);
             for (const [key, value] of Object.entries(options.data)) {
                 formData.append(`${key}`, value);
             }
@@ -30,7 +29,6 @@ const createRequest = (options = {}) => {
         };
         xhr.responseType = 'json';
         xhr.onload = function() {
-            console.log(xhr.response);
             options.callback(null, xhr.response);
         };
     } catch (e) {

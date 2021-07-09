@@ -25,7 +25,6 @@ class TransactionsPage {
      * Вызывает метод render для отрисовки страницы
      * */
     update() {
-        console.log(this.lastOptions);
         if (this.lastOptions) {
             this.render(this.lastOptions);
         } else {
@@ -45,9 +44,13 @@ class TransactionsPage {
             this.removeAccount();
         })
 
-        document.querySelector('.content').addEventListener('click', (e) => {
-            this.removeTransaction(e.target.closest('.transaction__remove').dataset.id);
-        })
+        if (document.querySelector('.transaction') !== null) {
+            for (const i of document.querySelectorAll('.transaction__remove')) {
+                i.addEventListener('click', (e) => {
+                    this.removeTransaction({ id: e.target.closest('.transaction__remove').dataset.id });
+                })
+            }
+        }
     }
 
     /**
@@ -61,10 +64,10 @@ class TransactionsPage {
      * */
     removeAccount() {
         if (this.lastOptions) {
-            console.log(this.lastOptions);
             if (confirm("Вы действительно хотите удалить счет?")) {
-                Account.remove(this.lastOptions, () => {
+                Account.remove({ id: this.lastOptions.account_id }, () => {
                     App.updateWidgets();
+                    // this.update();
                 });
                 this.clear();
             }
@@ -80,9 +83,11 @@ class TransactionsPage {
      * либо обновляйте текущую страницу (метод update) и виджет со счетами
      * */
     removeTransaction(id) {
+        console.log(this.lastOptions);
         if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
             Transaction.remove(id, () => {
                 App.update();
+                // this.update();
             })
         } else {
             return;
@@ -96,7 +101,6 @@ class TransactionsPage {
      * в TransactionsPage.renderTransactions()
      * */
     render(options) {
-        console.log(options);
         if (!options) {
             return;
         } else {
@@ -189,6 +193,8 @@ class TransactionsPage {
         for (let i = 0; i < data.length; i++) {
             transArray.push(this.getTransactionHTML(data[i]));
         };
+        content.innerHTML = '';
         content.insertAdjacentHTML('beforeend', transArray.join(''));
+        this.registerEvents();
     }
 }
