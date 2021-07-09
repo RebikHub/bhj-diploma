@@ -71,6 +71,11 @@
       "name": "alexandr",
       "user_id": "jffa61gkqw1zh2h",
       "id": "jffa1bgkqw20z7b"
+    },
+    {
+      "name": "avr",
+      "user_id": "1",
+      "id": "jffa7x4kqw4jnpj"
     }
   ],
   "transactions": [
@@ -210,15 +215,6 @@
       "user_id": "1"
     },
     {
-      "id": "jffa1b8kqvz9p31",
-      "type": "income",
-      "name": "win&linux",
-      "sum": 100,
-      "account_id": "jffa224kqvz97x0",
-      "user_id": "1",
-      "created_at": "2021-07-09T06:48:33.084Z"
-    },
-    {
       "id": "jffa4egkqvznwjr",
       "type": "income",
       "name": "alexandr",
@@ -253,6 +249,15 @@
       "account_id": "jffa5agkquhraze",
       "user_id": "jffa4h4kqt4wu9x",
       "created_at": "2021-07-09T08:03:43.452Z"
+    },
+    {
+      "id": "jffa8akkqw4juit",
+      "type": "income",
+      "name": "avr",
+      "sum": 300,
+      "account_id": "jffa7x4kqw4jnpj",
+      "user_id": "1",
+      "created_at": "2021-07-09T09:16:24.772Z"
     }
   ]
 }

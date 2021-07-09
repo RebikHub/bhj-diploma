@@ -14,10 +14,10 @@ class AccountsWidget {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
-        if (element !== null) {
+        try {
             this.element = element;
-        } else {
-            throw new Error('element = null');
+        } catch (e) {
+            console.log(e);
         };
 
         this.registerEvents();
@@ -83,13 +83,17 @@ class AccountsWidget {
      * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
      * */
     onSelectAccount(element) {
-        for (const i of document.querySelectorAll('.account')) {
-            if (i.classList.contains('active')) {
-                i.classList.remove('active');
-            };
+        if (element) {
+            for (const i of document.querySelectorAll('.account')) {
+                if (i.classList.contains('active')) {
+                    i.classList.remove('active');
+                };
+            }
+            element.classList.add('active');
+            App.showPage('transactions', { account_id: element.dataset.id });
+        } else {
+            return;
         }
-        element.classList.add('active');
-        App.showPage('transactions', { account_id: element.dataset.id });
     }
 
     /**

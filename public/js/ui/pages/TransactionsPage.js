@@ -11,11 +11,10 @@ class TransactionsPage {
      * через registerEvents()
      * */
     constructor(element) {
-
-        if (element !== null) {
+        try {
             this.element = element;
-        } else {
-            throw new Error('element = null');
+        } catch (e) {
+            console.log(e);
         };
 
         this.registerEvents();
@@ -185,7 +184,7 @@ class TransactionsPage {
      * используя getTransactionHTML
      * */
     renderTransactions(data) {
-        const content = this.element.querySelector('.content');
+        const content = document.querySelector('.content');
         let transArray = [];
         for (let i = 0; i < data.length; i++) {
             transArray.push(this.getTransactionHTML(data[i]));
