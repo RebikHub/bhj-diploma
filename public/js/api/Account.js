@@ -13,7 +13,6 @@ class Account extends Entity {
             method: 'GET',
             url: '/account',
             callback: (err, response) => {
-                console.log(response);
                 if (err === null) {
                     if (response.success) {
                         callback(err, response);

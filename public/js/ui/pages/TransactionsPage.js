@@ -25,8 +25,11 @@ class TransactionsPage {
      * Вызывает метод render для отрисовки страницы
      * */
     update() {
+        console.log(this.lastOptions);
         if (this.lastOptions) {
             this.render(this.lastOptions);
+        } else {
+            this.render(options);
         }
     }
 
@@ -38,17 +41,13 @@ class TransactionsPage {
      * */
     registerEvents() {
         const btnRemoveAccount = document.querySelector('.remove-account');
-        const btnTransactionRemove = document.querySelectorAll('.transaction__remove');
-
         btnRemoveAccount.addEventListener('click', () => {
-            TransactionsPage.removeAccount();
+            this.removeAccount();
         })
 
-        for (const i of btnTransactionRemove) {
-            i.addEventListener('click', () => {
-                TransactionsPage.removeTransaction(i.dataset.id);
-            })
-        }
+        document.querySelector('.content').addEventListener('click', (e) => {
+            this.removeTransaction(e.target.closest('.transaction__remove').dataset.id);
+        })
     }
 
     /**
@@ -62,11 +61,12 @@ class TransactionsPage {
      * */
     removeAccount() {
         if (this.lastOptions) {
+            console.log(this.lastOptions);
             if (confirm("Вы действительно хотите удалить счет?")) {
-                Account.remove(data, () => {
+                Account.remove(this.lastOptions, () => {
                     App.updateWidgets();
                 });
-                TransactionsPage.clear();
+                this.clear();
             }
         } else {
             return;
@@ -84,6 +84,8 @@ class TransactionsPage {
             Transaction.remove(id, () => {
                 App.update();
             })
+        } else {
+            return;
         }
     }
 
@@ -94,22 +96,20 @@ class TransactionsPage {
      * в TransactionsPage.renderTransactions()
      * */
     render(options) {
+        console.log(options);
         if (!options) {
             return;
         } else {
             this.lastOptions = options;
             Account.get(options.account_id, (err, response) => {
-                let trans;
                 for (const i of response.data) {
                     if (i.id === options.account_id) {
-                        trans = i;
+                        this.renderTitle(i.name);
                     }
                 }
-                this.renderTitle(trans.name);
-                Transaction.list(options, (err, response) => {
-                    console.log(response);
-                    this.renderTransactions(response);
-                })
+            })
+            Transaction.list(options, (err, response) => {
+                this.renderTransactions(response);
             })
         }
     }
@@ -129,7 +129,7 @@ class TransactionsPage {
      * Устанавливает заголовок в элемент .content-title
      * */
     renderTitle(name) {
-        return this.element.querySelector('.content-title').textContent = name;
+        return document.querySelector('.content-title').textContent = name;
     }
 
     /**
@@ -155,14 +155,13 @@ class TransactionsPage {
      * item - объект с информацией о транзакции
      * */
     getTransactionHTML(item) {
-
-        let html = `<div class="transaction transaction_expense row">
+        let html = `<div class="transaction transaction_${item.type} row">
           <div class="col-md-7 transaction__details">
             <div class="transaction__icon">
                 <span class="fa fa-money fa-2x"></span>
             </div>
             <div class="transaction__info">
-                <h4 class="transaction__title">${this.renderTitle(item.name)}</h4>
+                <h4 class="transaction__title">${item.name}</h4>
                 <div class="transaction__date">${this.formatDate(item.created_at)}</div>
             </div>
           </div>
@@ -186,9 +185,10 @@ class TransactionsPage {
      * */
     renderTransactions(data) {
         const content = this.element.querySelector('.content');
-
+        let transArray = [];
         for (let i = 0; i < data.length; i++) {
-            content.insertAdjacentElement('beforeend', getTransactionHTML(data[i]));
-        }
+            transArray.push(this.getTransactionHTML(data[i]));
+        };
+        content.insertAdjacentHTML('beforeend', transArray.join(''));
     }
 }

@@ -11,7 +11,6 @@ const createRequest = (options = {}) => {
     }
     try {
         if (options.method === 'GET') {
-            // console.log(options.data);
             if (options.data) {
                 for (const [key, value] of Object.entries(options.data)) {
                     xhr.open(`${options.method}`, `${options.url}?${key}=${value}`);
@@ -22,14 +21,16 @@ const createRequest = (options = {}) => {
             xhr.send();
         } else {
             let formData = new FormData();
-            formData.append('name', options.data.name);
-            formData.append('email', options.data.email);
-            formData.append('password', options.data.password);
+            console.log(options.data);
+            for (const [key, value] of Object.entries(options.data)) {
+                formData.append(`${key}`, value);
+            }
             xhr.open(`${options.method}`, `${options.url}`);
             xhr.send(formData);
         };
         xhr.responseType = 'json';
         xhr.onload = function() {
+            console.log(xhr.response);
             options.callback(null, xhr.response);
         };
     } catch (e) {
